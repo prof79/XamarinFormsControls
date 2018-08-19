@@ -1,4 +1,4 @@
-﻿#if !NETSTANDARD2_0
+﻿#if !NETSTANDARD1_0
 #if __ANDROID__
 using Xamarin.Forms.Platform.Android;
 #elif __IOS__

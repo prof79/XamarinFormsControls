@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -21,7 +22,7 @@ namespace AutoSuggestBoxSample
 
         private void Initialize()
         {
-            using (var s = typeof(MainPage).Assembly.GetManifestResourceStream("AutoSuggestBoxSample.Countries.txt"))
+            using (var s = typeof(MainPage).GetTypeInfo().Assembly.GetManifestResourceStream("AutoSuggestBoxSample.Countries.txt"))
             {
                 countries = new StreamReader(s).ReadToEnd().Split('\n').Select(t => t.Trim()).ToList();
             }
@@ -30,7 +31,7 @@ namespace AutoSuggestBoxSample
         private void staticSuggestBox_TextChanged(object sender, AutoSuggestBoxTextChangedEventArgs e)
         {
             // Filter the list based on text input
-            staticSuggestBox.ItemsSource = string.IsNullOrWhiteSpace(staticSuggestBox.Text) ? null : countries.Where(s => s.StartsWith(staticSuggestBox.Text, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            staticSuggestBox.ItemsSource = string.IsNullOrWhiteSpace(staticSuggestBox.Text) ? null : countries.Where(s => s.StartsWith(staticSuggestBox.Text, StringComparison.CurrentCultureIgnoreCase)).ToList();
         }
 
         private async void dynamicSuggestBox_TextChanged(object sender, dotMorten.Xamarin.Forms.AutoSuggestBoxTextChangedEventArgs args)
@@ -70,14 +71,14 @@ namespace AutoSuggestBoxSample
             var result = await Task.Run<IEnumerable<City>>(() =>
             {
                 List<City> suggestions = new List<City>();
-                using (var s = typeof(MainPage).Assembly.GetManifestResourceStream("AutoSuggestBoxSample.USCities.txt"))
+                using (var s = typeof(MainPage).GetTypeInfo().Assembly.GetManifestResourceStream("AutoSuggestBoxSample.USCities.txt"))
                 {
                     using (var sr = new StreamReader(s))
                     {
                         while (!sr.EndOfStream && suggestions.Count < 20)
                         {
                             var line = sr.ReadLine();
-                            if (line.StartsWith(text, StringComparison.InvariantCultureIgnoreCase))
+                            if (line.StartsWith(text, StringComparison.CurrentCultureIgnoreCase))
                             {
                                 var data = line.Split('\t');
                                 suggestions.Add(new City() { Name = data[0], State = data[1] });

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
-#if !NETSTANDARD2_0
+#if !NETSTANDARD1_0
 #if __ANDROID__
 using Xamarin.Forms.Platform.Android;
 #elif __IOS__
@@ -14,7 +14,7 @@ using NativeAutoSuggestBox = Windows.UI.Xaml.Controls.AutoSuggestBox;
 #endif
 #endif
 
-#if !NETSTANDARD2_0
+#if !NETSTANDARD1_0
 [assembly: ExportRenderer(typeof(dotMorten.Xamarin.Forms.AutoSuggestBox), typeof(dotMorten.Xamarin.Forms.AutoSuggestBoxRenderer))]
 #endif
 
@@ -27,7 +27,7 @@ namespace dotMorten.Xamarin.Forms
     /// </summary>
 	public partial class AutoSuggestBox : View
     {
-#if !NETSTANDARD2_0
+#if !NETSTANDARD1_0
         internal NativeAutoSuggestBox NativeAutoSuggestBox { get; }
 #endif
         private bool suppressTextChangedEvent;
@@ -37,7 +37,7 @@ namespace dotMorten.Xamarin.Forms
         /// </summary>
         public AutoSuggestBox() 
         {
-#if !NETSTANDARD2_0
+#if !NETSTANDARD1_0
             NativeAutoSuggestBox = new NativeAutoSuggestBox(
 #if __ANDROID__
                 Android.App.Application.Context
@@ -91,7 +91,7 @@ namespace dotMorten.Xamarin.Forms
         private static void OnTextPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var box = (AutoSuggestBox)bindable;
-#if !NETSTANDARD2_0
+#if !NETSTANDARD1_0
             if(box.NativeAutoSuggestBox.Text != newValue as string)
                 box.NativeAutoSuggestBox.Text = newValue as string;
 #endif
@@ -146,7 +146,7 @@ namespace dotMorten.Xamarin.Forms
         private static void OnPlaceholderTextPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var box = (AutoSuggestBox)bindable;
-#if !NETSTANDARD2_0
+#if !NETSTANDARD1_0
             box.NativeAutoSuggestBox.PlaceholderText = newValue as string;
 #endif
         }
@@ -226,7 +226,7 @@ namespace dotMorten.Xamarin.Forms
 
         private static void OnIsSuggestionListOpenPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-#if !NETSTANDARD2_0
+#if !NETSTANDARD1_0
             var box = (AutoSuggestBox)bindable;
             bool isOpen = (bool)newValue;
             box.NativeAutoSuggestBox.IsSuggestionListOpen = isOpen;
